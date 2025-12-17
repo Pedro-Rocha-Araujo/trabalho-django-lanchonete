@@ -1,0 +1,125 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #292525;
+        margin: 0;
+        padding: 0;
+    } 
+
+    h1 a{
+        font-size: 50px;
+        color: #fff;
+        text-decoration: none;
+    } 
+
+    .link_cacecalho{
+        text-decoration: none;
+        color: white;
+    }
+
+    header {
+        background: #ff8800;
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    table{
+            border: 1px;
+            border-collapse: collapse;
+            background-color: white;
+            font-size: 20px;
+            text-align: center;
+            vertical-align: center;
+        }
+
+        td, th{
+            border: 1px solid black;
+            padding: 10px 5px;
+        }
+
+        thead{
+            background-color: #ff8800;
+            color: white;
+            font-size: 22px;
+        }
+
+        table ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        div.container{
+            display: flex;
+            justify-content: center;
+            padding: 50px;
+        }
+         
+        div.container table{
+            width: 90%;
+        }
+</style>
+<body>
+    <header>
+        <h1><a href="{% url 'home' %}">Pedidos Cadastrados</a></h1>
+    </header>
+    <main>
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Responsável</th>
+                        <th>Data</th>
+                        <th>Itens do Pedido</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.id }}</td>
+                        <td>{{ pedido.cliente.nome }}</td>
+                        <td>{{ pedido.funcionario.nome }}</td>
+                        <td>{{ pedido.data|date:"d/m/Y" }}</td>
+                        <td>
+                            <ul>
+                                {% for item in pedido.itempedido_set.all %}
+                                <li>
+                                    {{ item.lanche.nome }}  
+                                    <span>
+                                        {{ item.quantidade }} - R$ {{ item.lanche.valor }}
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            R$ {{ pedido.pagamento.valor }}
+                        </td>
+                        <td>
+                            {% if pedido.pagamento.pago %}
+                                <span style="color: green; font-weight: bold;">Pago</span>
+                            {% else %}
+                                <form method="post" action="{% url 'marcar_pago' pedido.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Pago</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>
+                            <strong>Nenhum pedido cadastrado ainda.</strong>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>

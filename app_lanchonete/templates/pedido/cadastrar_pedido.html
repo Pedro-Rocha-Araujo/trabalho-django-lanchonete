@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cadastrar Pedido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #292525;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        } 
+
+        h1{
+            font-size: 50px;
+        } 
+
+        h2{
+            font-size: 30px;
+            color: white;
+        }
+
+        p.mensagem{
+            font-size: 20px;
+            background-color: #ff8800;
+            width: fit-content;
+            margin: auto;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .link_cacecalho{
+            text-decoration: none;
+            color: white;
+        }
+
+        header {
+            background: #ff8800;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tabela{
+            margin: auto;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        .tabela thead{
+            background-color: #ff8800;
+            color: white;
+        }
+
+        td, th{
+            border: 1px solid white;
+            padding: 10px 30px;
+        }
+
+        button[type="submit"], input[type="date"]{
+            font-size: 20px;
+            color: white;
+            background-color: #ff8800;
+            padding: 10px 20px;
+            border: none;
+            font-weight: bold;
+
+        }
+
+        input[type="date"]{
+            width: 200px;
+            border: none;
+            margin-top: 6px;
+        }
+
+        input[type="number"]{
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ff8800;
+            color: white;
+        }
+
+        label{
+            font-size: 20px;
+        }
+
+        .adcionar_item{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(240, 248, 255, 0.089);
+            width: 400px;
+            height: 300px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 50px;
+        }
+
+        .adcionar_item form{
+            text-align: left;
+        }
+
+        .adcionar_item form label{
+            display: inline-block;
+            width: 110px;
+        }
+
+        .adcionar_item form select{
+            margin: 0;
+        }
+
+        .adcionar_item form button{
+            display: block;
+            margin: 10px 0 0 110px;
+            border-radius: 20px;
+            border: 1px solid white;
+        }
+
+        .adcionar_item form button:hover{
+            background-color: transparent;
+            border: 1px solid #ff8800;
+        }
+
+        select{
+            font-size: 20px;
+            color: white;
+            background-color: #ff8800;
+            margin: none;
+            padding: 10px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .container {
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        section label{
+            display: inline-block;
+            width: 110px;
+            text-align: left;
+        }
+
+        .salvar-pedido{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(240, 248, 255, 0.089);
+            width: 400px;
+            height: 300px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 50px;
+        }
+
+        button#botao-final{
+            border-radius: 20px;
+            border: 1px solid white;
+            margin-left: 70px;
+        }
+
+        button#botao-final:hover{
+            background-color: transparent;
+            border: 1px solid #ff8800;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a class="link_cacecalho" href="{% url 'home' %}">Cadastrar Pedidos</a></h1>
+    </header>
+
+
+        <h2>Adicionar Item</h2>
+        <div class="adcionar_item">
+            <form method="post">
+                {% csrf_token %}
+
+                <label>Lanche:</label>
+                <select name="lanche">
+                    <option value="">Selecione sua opção</option>
+                    {% for l in lanches %}
+                        <option value="{{ l.id }}">{{ l.nome }} - R$ {{ l.valor }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <label>Quantidade:</label>
+                <input type="number" name="quantidade" min="1" value="1" style="width:60px">
+                <br><br>
+                <button type="submit" name="action" value="add">Adicionar item</button>
+            </form>
+        </div>
+        <br>
+        <hr>
+        <!-- ============================ -->
+        <!-- LISTA DE ITENS TEMPORÁRIOS -->
+        <!-- ============================ -->
+        <h2>Itens do pedido</h2>
+        {% if itens_sessao %}
+        <table class="tabela" border="1" cellpadding="6">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Lanche</th>
+                    <th>Valor</th>
+                    <th>Quantidade</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens_sessao %}
+                <tr>
+                    <td>{{ forloop.counter0 }}</td>
+                    <td>{{ item.nome }}</td>
+                    <td>R$ {{ item.valor }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>
+                        <form method="post" style="display:inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="index" value="{{ forloop.counter0 }}">
+                            <button type="submit" name="action" value="remove">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="mensagem">Nenhum item adicionado até o momento</p>
+        {% endif %}
+        <br>
+        <hr>
+        <!-- ============================ -->
+        <!-- FORM: FINALIZAR PEDIDO     -->
+        <!-- ============================ -->
+         
+        <h2>Finalizar Pedido</h2>
+        <div class="salvar-pedido">
+            <section>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <label>Cliente:</label>
+                    <select name="cliente" required>
+                        <option value="">Selecione sua opção</option>
+                        {% for c in clientes %}
+                            <option value="{{ c.id }}">{{ c.nome }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+
+                    <label>Funcionário:</label>
+                    <select name="funcionario" required>
+                        <option value="">Selecione sua opção</option>
+                        {% for f in funcionarios %}
+                            <option value="{{ f.id }}">{{ f.nome }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+
+                    <label>Data:</label>
+                    <input type="date" name="data">
+                    <br><br>
+
+                    <button id="botao-final" type="submit" name="action" value="finalize">Finalizar pedido</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>

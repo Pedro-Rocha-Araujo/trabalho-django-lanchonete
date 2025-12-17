@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #292525;
+            margin: 0;
+            padding: 0;
+        } 
+
+        h1{
+            font-size: 50px;
+        }
+        
+        .link_cacecalho{
+            text-decoration: none;
+            color: white;
+        }
+
+        header {
+            background: #ff8800;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table{
+            border: 1px;
+            border-collapse: collapse;
+            background-color: white;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        td, th{
+            border: 1px solid black;
+            padding: 10px 100px;
+        }
+
+        thead{
+            background-color: #ff8800;
+            color: white;
+            font-size: 30px;
+        }
+
+      </style>
+</head>
+<body>
+
+    <header>
+        <h1><a class="link_cacecalho" href="{% url 'home' %}">Lanches Cadastrados</a></h1>
+    </header>
+
+    <main class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lanche in lanches %}
+                <tr>
+                    <td>{{ lanche.nome }}</td>
+                    <td>{{ lanche.valor }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>

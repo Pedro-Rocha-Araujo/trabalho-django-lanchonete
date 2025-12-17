@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #292525;
+            margin: 0;
+            padding: 0;
+        } 
+
+        h1{
+            font-size: 50px;
+        } 
+
+        .link_cacecalho{
+            text-decoration: none;
+            color: white;
+        }
+
+        header {
+            background: #ff8800;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        label{
+            color: white;
+            font-size: 25px;
+            display: inline-block;
+            width: 100px;
+            
+        }
+
+        .texto_input{
+            background-color: white;
+            border: none;
+            outline: none;
+            height: 35px;
+            width: 320px;
+            border-radius: 5px;
+            font-size: 25px;
+        }
+
+        .submit{
+            border: none;
+            background-color: #ff8800;
+            padding: 10px 20px;
+            color: white;
+            font-size: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+      </style>
+</head>
+<body>
+
+    <header>
+        <h1><a class="link_cacecalho" href="{% url 'home' %}">Cadastrar Cliente</a></h1>
+    </header>
+
+    <main class="container">
+        <form action="{% url 'clientes_cadastrados' %}" method='post'>
+            {% csrf_token %}
+            <label for="">Nome</label>
+            <input type="text" class="texto_input" name='nome_cliente' required>
+            <br><br>
+            <label id="telefone" for="">Telefone</label>
+            <input type="text" class="texto_input" name='telefone_cliente' required>
+            <br><br>
+            <input type="submit" class="submit">
+        </form>
+    </main>
+
+</body>
+</html>
