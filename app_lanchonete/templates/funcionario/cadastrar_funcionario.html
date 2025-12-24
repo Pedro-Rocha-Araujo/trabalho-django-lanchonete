@@ -7,13 +7,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #292525;
+            background: #1D594E;
             margin: 0;
             padding: 0;
         } 
 
         h1{
-            font-size: 50px;
+            font-size: clamp(2.6rem, 5vw, 3.4rem);
         } 
 
         .link_cacecalho{
@@ -24,12 +24,12 @@
         header {
             background: #ff8800;
             color: white;
-            padding: 20px;
+            padding: 20px 0;
             text-align: center;
+            margin-bottom: 50px;
         }
 
         .container {
-            padding: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,7 +39,7 @@
             color: white;
             font-size: 25px;
             display: inline-block;
-            width: 170px;
+            width: 100px;
             
         }
 
@@ -48,19 +48,24 @@
             border: none;
             outline: none;
             height: 35px;
-            width: 320px;
+            width: 300px;
             border-radius: 5px;
             font-size: 25px;
         }
 
         .submit{
             border: none;
-            background-color: #ff8800;
+            background-color: transparent;
+            border: 1px solid #ff8800;;
             padding: 10px 20px;
             color: white;
             font-size: 20px;
-            border-radius: 5px;
+            border-radius: 15px;
             font-weight: bold;
+        }
+
+        .submit:hover{
+            background-color: #ff8800;
         }
       </style>
 </head>
@@ -76,7 +81,7 @@
             <label for="">Nome</label>
             <input type="text" class="texto_input" name='nome_funcionario' required>
             <br><br>
-            <label id="telefone" for="">Especialidade</label>
+            <label id="telefone" for="">Função</label>
             <input type="text" class="texto_input" name='especialidade_funcionario' required>
             <br><br>
             <input type="submit" class="submit">

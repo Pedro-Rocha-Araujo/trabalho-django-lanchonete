@@ -7,24 +7,25 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #292525;
+            background: #1D594E;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         } 
 
         h1{
-            font-size: 50px;
-        } 
+            font-size: clamp(2.6rem, 5vw, 3.4rem);
+        }  
 
         h2{
+            text-align: center;
             font-size: 30px;
             color: white;
         }
 
         p.mensagem{
             font-size: 20px;
-            background-color: #ff8800;
+            background-color: #F23030;
             width: fit-content;
             margin: auto;
             padding: 10px;
@@ -37,9 +38,9 @@
         }
 
         header {
-            background: #ff8800;
+            background: #F28705;
             color: white;
-            padding: 20px;
+            padding: 30px;
             display: flex;
             justify-content: center;
         }
@@ -51,7 +52,7 @@
         }
 
         .tabela thead{
-            background-color: #ff8800;
+            background-color: #F28705;
             color: white;
         }
 
@@ -60,10 +61,12 @@
             padding: 10px 30px;
         }
 
+
+
         button[type="submit"], input[type="date"]{
-            font-size: 20px;
+            font-size: 18px;
             color: white;
-            background-color: #ff8800;
+            background-color: #F28705;
             padding: 10px 20px;
             border: none;
             font-weight: bold;
@@ -80,8 +83,20 @@
             border: none;
             padding: 10px;
             border-radius: 5px;
-            background-color: #ff8800;
+            background-color: #F28705;
             color: white;
+        }
+
+        #botao-tabela{
+            font-size: 1rem;
+            border-radius: 20px;
+            background-color: transparent;
+            border: 1px solid #F23030;        
+        }
+
+        #botao-tabela:hover{
+            background-color: #F23030;
+            border: 1px solid #F23030;        
         }
 
         label{
@@ -96,8 +111,8 @@
             width: 400px;
             height: 300px;
             margin: auto;
-            padding: 20px;
-            border-radius: 50px;
+            padding: 0 20px;
+            border-radius: 20px;
         }
 
         .adcionar_item form{
@@ -109,26 +124,29 @@
             width: 110px;
         }
 
-        .adcionar_item form select{
+        .adcionar_item select{
             margin: 0;
         }
 
-        .adcionar_item form button{
+        .adcionar_item button{
             display: block;
             margin: 10px 0 0 110px;
             border-radius: 20px;
-            border: 1px solid white;
+            background-color: transparent;
+            border: 1px solid #F28705;
+            
+            
         }
 
         .adcionar_item form button:hover{
-            background-color: transparent;
-            border: 1px solid #ff8800;
+            background-color: #F28705;
+            border: 1px solid transparent;
         }
 
         select{
             font-size: 20px;
             color: white;
-            background-color: #ff8800;
+            background-color: #F28705;
             margin: none;
             padding: 10px;
             font-weight: bold;
@@ -155,19 +173,20 @@
             width: 400px;
             height: 300px;
             margin: auto;
-            padding: 20px;
-            border-radius: 50px;
+            padding: 0 20px;
+            border-radius: 20px;
         }
 
         button#botao-final{
             border-radius: 20px;
-            border: 1px solid white;
-            margin-left: 70px;
+            background-color: transparent;
+            border: 1px solid #F28705;
+            margin-left: 50px;
         }
 
         button#botao-final:hover{
-            background-color: transparent;
-            border: 1px solid #ff8800;
+            background-color: #F28705;
+            border: 1px solid transparent;
         }
     </style>
 </head>
@@ -176,6 +195,11 @@
         <h1><a class="link_cacecalho" href="{% url 'home' %}">Cadastrar Pedidos</a></h1>
     </header>
 
+
+    <main class="container">
+        <!-- ============================ -->
+        <!-- FORM: ADICIONAR ITEM        -->
+        <!-- ============================ -->
 
         <h2>Adicionar Item</h2>
         <div class="adcionar_item">
@@ -206,7 +230,7 @@
         <table class="tabela" border="1" cellpadding="6">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th>Lanche</th>
                     <th>Valor</th>
                     <th>Quantidade</th>
@@ -224,7 +248,7 @@
                         <form method="post" style="display:inline">
                             {% csrf_token %}
                             <input type="hidden" name="index" value="{{ forloop.counter0 }}">
-                            <button type="submit" name="action" value="remove">Remover</button>
+                            <button id="botao-tabela" type="submit" name="action" value="remove">Remover</button>
                         </form>
                     </td>
                 </tr>

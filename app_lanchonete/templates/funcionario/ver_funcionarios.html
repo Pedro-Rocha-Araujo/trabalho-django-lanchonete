@@ -7,14 +7,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #292525;
+            background: #1D594E;
             margin: 0;
             padding: 0;
         } 
 
         h1{
-            font-size: 50px;
-        }
+            font-size: clamp(2.6rem, 5vw, 3.4rem);
+        } 
         
         .link_cacecalho{
             text-decoration: none;
@@ -24,28 +24,31 @@
         header {
             background: #ff8800;
             color: white;
-            padding: 20px;
+            padding: 20px 0;
             text-align: center;
+            margin-bottom: 30px;
         }
 
         .container {
-            padding: 50px;
+            padding: 0 10px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         table{
+            width: 100%;
+            max-width: 700px;
             border: 1px;
             border-collapse: collapse;
             background-color: white;
-            font-size: 20px;
+            font-size: 1.2rem;
             text-align: center;
         }
 
         td, th{
             border: 1px solid black;
-            padding: 10px 100px;
+            padding: 10px;
         }
 
         thead{
@@ -57,29 +60,28 @@
       </style>
 </head>
 <body>
-
     <header>
         <h1><a class="link_cacecalho" href="{% url 'home' %}">Funcionarios Cadastrados</a></h1>
     </header>
 
-    <main class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for funcionario in funcionarios %}
-                <tr>
-                    <td>{{ funcionario.nome }}</td>
-                    <td>{{ funcionario.especialidade }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </main>
-
+    <main>
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Função</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for funcionario in funcionarios %}
+                    <tr>
+                        <td>{{ funcionario.nome }}</td>
+                        <td>{{ funcionario.especialidade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 </body>
 </html>

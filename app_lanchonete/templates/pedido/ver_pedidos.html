@@ -1,13 +1,16 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: #292525;
+        background: #1D594E;
         margin: 0;
         padding: 0;
     } 
 
+    h1{
+        font-size: clamp(2.6rem, 5vw, 3.4rem);
+    } 
+
     h1 a{
-        font-size: 50px;
         color: #fff;
         text-decoration: none;
     } 
@@ -18,108 +21,129 @@
     }
 
     header {
-        background: #ff8800;
+        background: #F28705;
         color: white;
-        padding: 30px;
+        padding: 20px 0;
         text-align: center;
+        margin-bottom: 50px;
     }
 
     table{
-            border: 1px;
-            border-collapse: collapse;
-            background-color: white;
-            font-size: 20px;
-            text-align: center;
-            vertical-align: center;
+        border: 1px;
+        border-collapse: collapse;
+        background-color: white;
+        font-size: 1rem;
+        text-align: center;
+        vertical-align: center;
         }
 
-        td, th{
-            border: 1px solid black;
-            padding: 10px 5px;
-        }
+    td, th{
+        border: 1px solid black;
+        padding: 10px 0;
+    }
 
-        thead{
-            background-color: #ff8800;
-            color: white;
-            font-size: 22px;
-        }
+    thead{
+        background-color: #F28705;
+        color: white;
+        font-size: 1.2rem;
+    }
 
-        table ul{
-            list-style: none;
-            margin: 0;
-            padding: 0;
+    @media screen and (max-width: 800px){
+        table{
+            font-size: 0.9rem;
         }
+    }
 
-        div.container{
-            display: flex;
-            justify-content: center;
-            padding: 50px;
-        }
-         
-        div.container table{
-            width: 90%;
-        }
+    table ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    div.container{
+        display: flex;
+        justify-content: center;
+        padding: 0 10px;
+    }
+        
+    div.container table{
+        width: 100%;
+        max-width: 1250px;
+    }
+    button#botao-pago{
+        border: none;
+        font-size: 1.2rem;
+        background-color: transparent;
+        padding: 3px 16px;
+        border-radius: 5px;
+        border: 1px solid green;
+        color: green;
+    }
+
+    button#botao-pago:hover{
+        background-color: green;
+        color: #fff;
+        border: 1px solid green;
+    }
 </style>
 <body>
     <header>
         <h1><a href="{% url 'home' %}">Pedidos Cadastrados</a></h1>
     </header>
-    <main>
-        <div class="container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Responsável</th>
-                        <th>Data</th>
-                        <th>Itens do Pedido</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for pedido in pedidos %}
-                    <tr>
-                        <td>{{ pedido.id }}</td>
-                        <td>{{ pedido.cliente.nome }}</td>
-                        <td>{{ pedido.funcionario.nome }}</td>
-                        <td>{{ pedido.data|date:"d/m/Y" }}</td>
-                        <td>
-                            <ul>
-                                {% for item in pedido.itempedido_set.all %}
-                                <li>
-                                    {{ item.lanche.nome }}  
-                                    <span>
-                                        {{ item.quantidade }} - R$ {{ item.lanche.valor }}
-                                    </span>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                        <td>
-                            R$ {{ pedido.pagamento.valor }}
-                        </td>
-                        <td>
-                            {% if pedido.pagamento.pago %}
-                                <span style="color: green; font-weight: bold;">Pago</span>
-                            {% else %}
-                                <form method="post" action="{% url 'marcar_pago' pedido.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Pago</button>
-                                </form>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>
-                            <strong>Nenhum pedido cadastrado ainda.</strong>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </main>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Responsável</th>
+                    <th>Data</th>
+                    <th>Itens do Pedido</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ pedido.id }}</td>
+                    <td>{{ pedido.cliente.nome }}</td>
+                    <td>{{ pedido.funcionario.nome }} ({{pedido.funcionario.especialidade}})</td>
+                    <td>{{ pedido.data|date:"d/m/Y" }}</td>
+                    <td>
+                        <ul>
+                            {% for item in pedido.itempedido_set.all %}
+                            <li>
+                                {{ item.lanche.nome }}  
+                                <span>
+                                    {{ item.quantidade }} - R$ {{ item.lanche.valor }}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        R$ {{ pedido.pagamento.valor }}
+                    </td>
+                    <td>
+                        {% if pedido.pagamento.pago %}
+                            <span style="color: green; font-weight: bold;">Pago</span>
+                        {% else %}
+                            <form method="post" action="{% url 'marcar_pago' pedido.id %}">
+                                {% csrf_token %}
+                                <button id="botao-pago" type="submit">Pagar</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>
+                        <strong>Nenhum pedido cadastrado ainda.</strong>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>

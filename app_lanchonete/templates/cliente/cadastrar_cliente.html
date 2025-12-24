@@ -7,13 +7,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #292525;
+            background: #1D594E;
             margin: 0;
             padding: 0;
         } 
 
         h1{
-            font-size: 50px;
+            font-size: clamp(2.6rem, 5vw, 3.4rem);
         } 
 
         .link_cacecalho{
@@ -22,14 +22,14 @@
         }
 
         header {
-            background: #ff8800;
+            background: #F28705;
             color: white;
-            padding: 20px;
+            padding: 20px 0;
             text-align: center;
+            margin-bottom: 30px
         }
 
         .container {
-            padding: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -48,19 +48,24 @@
             border: none;
             outline: none;
             height: 35px;
-            width: 320px;
+            width: 300px;
             border-radius: 5px;
             font-size: 25px;
         }
 
         .submit{
             border: none;
-            background-color: #ff8800;
+            background-color: transparent;
+            border: 1px solid #F28705;
             padding: 10px 20px;
             color: white;
             font-size: 20px;
-            border-radius: 5px;
+            border-radius: 20px;
             font-weight: bold;
+        }
+
+        .submit:hover{
+            background-color: #F28705;
         }
       </style>
 </head>
